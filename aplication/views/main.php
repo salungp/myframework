@@ -36,12 +36,19 @@
 	<ul>
 		<?php foreach ($data['user'] as $user) : ?>
 			<li><?= $user['nama']; ?> <a href="<?= base_url('welcome/deleteUser/'.$user['id']); ?>"> <a href="<?= base_url('welcome/update/'.$user['id']); ?>">Edit</a></li>
+			<li><?= $user['email']; ?></li>
 			<br><br>
 		<?php endforeach; ?>
 	</ul>
-	<form action="<?= base_url('welcome/isertFoto'); ?>" method="POST" enctype="multipart/form-data">
+	<form action="<?= base_url('welcome/insertFoto'); ?>" method="POST" enctype="multipart/form-data">
 		<input type="file" name="foto">
 		<button type="submit">Simpan</button>
 	</form>
+	<ul>
+		<?php foreach ($data['foto'] as $foto) : ?>
+			<li><img src="<?= base_url($foto['dir']); ?>" alt="<?= $foto['nama']; ?>"></li>
+			<br><br>
+		<?php endforeach; ?>
+	</ul>
 </body>
 </html>

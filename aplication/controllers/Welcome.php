@@ -5,6 +5,7 @@ class Welcome extends Controller
 	{
 		$data['kota'] = $this->model('welcome_model')->getData('kota');
 		$data['user'] = $this->model('welcome_model')->getData('users');
+		$data['foto'] = $this->model('welcome_model')->getData('foto');
 		$this->view('main', $data);
 	}
 
@@ -57,6 +58,18 @@ class Welcome extends Controller
 			redirect();
 		} else {
 			Flasher::set('Delete data failed!');
+			redirect();
+		}
+	}
+
+	public function insertFoto()
+	{
+		if ($this->model('welcome_model')->insertFile() > 0)
+		{
+			Flasher::set('Insert data successfuly');
+			redirect();
+		} else {
+			Flasher::set('Insert data failed!');
 			redirect();
 		}
 	}
