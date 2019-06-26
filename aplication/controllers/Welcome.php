@@ -60,4 +60,22 @@ class Welcome extends Controller
 			redirect();
 		}
 	}
+
+	public function updateUser()
+	{
+		if ($this->model('welcome_model')->updateData() > 0)
+		{
+			Flasher::set('Update data successfuly');
+			redirect();
+		} else {
+			Flasher::set('Update data failed!');
+			redirect();
+		}
+	}
+
+	public function update($id)
+	{
+		$data['user'] = $this->model('welcome_model')->whereUser($id);
+		$this->view('update', $data);
+	}
 }

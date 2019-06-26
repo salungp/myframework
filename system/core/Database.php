@@ -87,11 +87,43 @@ class Database
 		}
 	}
 
+	public function get_where($table, $property = null, $field = null)
+	{	
+		if ( ! is_null($field))
+		{
+			if (is_array($field))
+			{
+				$field = implode(', ', $field);
+				$key = '';
+				$value = '';
+				foreach ($property as $k => $v) {
+					$key = $k;
+					$value = $v;
+				}
+				$query = 'SELECT '.$field.' FROM '.$table.' WHERE '.$key.'='.$value;
+				$this->_stmt = $this->_dbh->prepare($query);
+				$this->_stmt->execute();
+				return $this->_stmt->fetch(PDO::FETCH_ASSOC);
+			}	
+		} else {
+			$key = '';
+			$value = '';
+			foreach ($property as $k => $v) {
+				$key = $k;
+				$value = $v;
+			}
+			$query = 'SELECT * FROM '.$table.' WHERE '.$key.'='.$value;
+			$this->_stmt = $this->_dbh->prepare($query);
+			$this->_stmt->execute();
+			return $this->_stmt->fetch(PDO::FETCH_ASSOC);
+		}
+	}
+
 	public function delete($table, $field = null)
 	{
 		if (count($field) > 1)
 		{
-			die('Coba deh lain kali');
+			die('Sorry you can pass 1 value');
 		} else {
 			$key = '';
 			$value = '';
@@ -103,6 +135,32 @@ class Database
 
 			$this->_stmt = $this->_dbh->prepare('DELETE FROM '.$table.' WHERE '.$key.'='.$value);
 			$this->_stmt->execute();
+		}
+	}
+
+	public function update($table, $data, $where)
+	{
+		if (is_array($data))
+		{
+			$key = '';
+			$value = '';
+			$field = array();
+			$param = array();
+			$w = '';
+			foreach ($data as $k => $v) {
+				$key = $k.'='.':'.$k;
+				$param[':'.$k] = $v;
+				$field[] = $key;
+			}
+
+			foreach ($where as $k => $v) {
+				$value = $k.'='.$v;
+				$w = $value;
+			}
+
+			$query = 'UPDATE '.$table.' SET '.implode(', ', $field).' WHERE '.$w;
+			$this->_stmt = $this->_dbh->prepare($query);
+			$this->_stmt->execute($param);
 		}
 	}
 

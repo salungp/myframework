@@ -35,4 +35,22 @@ class welcome_model extends Controller
 		$this->db->delete($table, array('id' => $id));
 		return $this->db->rowCount();
 	}
+
+	public function whereUser($id)
+	{
+		return $this->db->get_where('users', array('id' => $id));
+	}
+
+	public function updateData()
+	{
+		$id = $_POST['id'];
+		$nama = $_POST['nama'];
+		$email = $_POST['email'];
+		// $query = "UPDATE users SET nama='$nama', email='$email' WHERE id=$id";
+		// die($query);
+		$this->db->update('users', array('nama' => $nama, 'email' => $email), array('id' => $id));
+		// $this->db->query($query);
+		// $this->db->execute();
+		return $this->db->rowCount();
+	}
 }

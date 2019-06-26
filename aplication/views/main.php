@@ -35,7 +35,7 @@
 	<h4>Daftar User</h4>
 	<ul>
 		<?php foreach ($data['user'] as $user) : ?>
-			<li><?= $user['nama']; ?> <a href="<?= base_url('welcome/deleteUser/'.$user['id']); ?>">Delete</a></li>
+			<li><?= $user['nama']; ?> <a href="<?= base_url('welcome/deleteUser/'.$user['id']); ?>"> <a href="<?= base_url('welcome/update/'.$user['id']); ?>">Edit</a></li>
 			<br><br>
 		<?php endforeach; ?>
 	</ul>
