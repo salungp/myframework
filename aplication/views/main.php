@@ -12,6 +12,10 @@
 <body>
 	<?php Flasher::get(); ?>
 	<h2>Myframework</h2>
+	<form action="<?= base_url('welcome/cari'); ?>" method="POST">
+		<input type="text" name="cari" placeholder="Cari Disini...">
+		<button type="submit">Search</button>
+	</form><br>
 	<form action="<?= base_url('welcome/insert'); ?>" method="POST">
 		<div class="form-inline">
 			<input type="text" name="nama_kota" placeholder="Masukkan nama kota">
@@ -24,7 +28,7 @@
 			<li><?= $kota['nama']; ?> <a href="<?= base_url('welcome/deleteKota/'.$kota['id']); ?>">Delete</a></li>
 		<?php endforeach; ?>
 	</ul>
-	<br>
+	<!-- <br>
 	<form action="<?= base_url('welcome/insertUser'); ?>" method="POST">
 		<div class="form-inline">
 			<input type="text" name="nama" placeholder="Masukkan nama"><br>
@@ -49,6 +53,6 @@
 			<li><img src="<?= base_url($foto['dir']); ?>" alt="<?= $foto['nama']; ?>"></li>
 			<br><br>
 		<?php endforeach; ?>
-	</ul>
+	</ul> -->
 </body>
 </html>

@@ -15,6 +15,8 @@ class Database
 
 	public $_qb;
 
+	public $_sm;
+
 	public function __construct()
 	{
 		$dsn = 'mysql:host='.$this->_host.';dbname='.$this->_name;
@@ -98,8 +100,15 @@ class Database
 	}
 
 	public function get_where($table, $property = null, $field = null)
-	{	
-		if ( ! is_null($field))
+	{
+		if ($this->_qb !== null)
+		{
+			$query = 'SELECT * FROM '.$table.' WHERE '.$this->_qb;
+			// $query = "SELECT * FROM $table WHERE nama LIKE '%$k%'";
+			$this->_stmt = $this->_dbh->prepare($query);
+			$this->_stmt->execute($this->_sm);
+		}
+		else if ( ! is_null($field))
 		{
 			if (is_array($field))
 			{
@@ -112,8 +121,6 @@ class Database
 				}
 				$query = 'SELECT '.$field.' FROM '.$table.' WHERE '.$key.'='.$value;
 				$this->_stmt = $this->_dbh->prepare($query);
-				$this->_stmt->execute();
-				return $this->_stmt->fetch(PDO::FETCH_ASSOC);
 			}	
 		} else {
 			$key = '';
@@ -124,8 +131,6 @@ class Database
 			}
 			$query = 'SELECT * FROM '.$table.' WHERE '.$key.'='.$value;
 			$this->_stmt = $this->_dbh->prepare($query);
-			$this->_stmt->execute();
-			return $this->_stmt->fetch(PDO::FETCH_ASSOC);
 		}
 	}
 
@@ -157,6 +162,14 @@ class Database
 	public function where($key, $value)
 	{
 		$this->_qb = $key.'='.$value;
+		return $this;
+	}
+
+	public function like($key, $value)
+	{
+
+		$this->_qb = $key.' LIKE :'.$key;
+		$this->_sm = array(':'.$key => '%'.$value.'%');
 		return $this;
 	}
 

@@ -71,4 +71,12 @@ class welcome_model extends Controller
 		// $this->db->execute();
 		return $this->db->rowCount();
 	}
+
+	public function cariData()
+	{
+		$k = $_POST['cari'];
+		$this->db->like('nama', $k);
+		$this->db->get_where('kota');
+		return $this->db->result_array();
+	}
 }

@@ -91,4 +91,10 @@ class Welcome extends Controller
 		$data['user'] = $this->model('welcome_model')->whereUser($id);
 		$this->view('update', $data);
 	}
+
+	public function cari()
+	{
+		$data['kota'] = $this->model('welcome_model')->cariData();
+		$this->view('main', $data);
+	}
 }
