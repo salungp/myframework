@@ -11,7 +11,7 @@ class welcome_model extends Controller
 	public function insertData($data)
 	{
 		$nama_kota = $data['nama_kota'];
-		$this->db->insert('kota', array('nama' => $nama_kota, 'waktu' => 1));
+		$this->db->insert('kota', array('nama' => $nama_kota));
 		return $this->db->rowCount();
 	}
 
@@ -25,6 +25,7 @@ class welcome_model extends Controller
 
 	public function getData($table)
 	{
+		$this->db->orderBy('id', 'DESC');
 		return $this->db->get($table);
 	}
 
@@ -75,6 +76,8 @@ class welcome_model extends Controller
 	public function cariData()
 	{
 		$k = $_POST['cari'];
+		// Jika menggunakan fitur like isikan pertama key dan kedua value 
+		// ketiga property (otional) terdiri dari front dan back front untuk like depan dan back untuk like belakang
 		$this->db->like('nama', $k);
 		$this->db->get_where('kota');
 		return $this->db->result_array();

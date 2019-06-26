@@ -90,10 +90,21 @@ class Database
 		{
 			if (is_array($field))
 			{
-				$this->_stmt = $this->_dbh->query('SELECT '.implode(', ', $field).' FROM '.$table);
-				return $this->_stmt->fetchAll(PDO::FETCH_ASSOC);
+				if ( ! empty($this->_qb))
+				{
+					$this->_stmt = $this->_dbh->query('SELECT '.implode(', ', $field).' FROM '.$table.$this->_qb);
+					return $this->_stmt->fetchAll(PDO::FETCH_ASSOC);
+				} else {
+					$this->_stmt = $this->_dbh->query('SELECT '.implode(', ', $field).' FROM '.$table);
+					return $this->_stmt->fetchAll(PDO::FETCH_ASSOC);
+				}
 			}
 		} else {
+			if ( ! empty($this->_qb))
+			{
+				$this->_stmt = $this->_dbh->query('SELECT * FROM '.$table.$this->_qb);
+				return $this->_stmt->fetchAll(PDO::FETCH_ASSOC);
+			}
 			$this->_stmt = $this->_dbh->query('SELECT * FROM '.$table);
 			return $this->_stmt->fetchAll(PDO::FETCH_ASSOC);
 		}
@@ -165,11 +176,30 @@ class Database
 		return $this;
 	}
 
-	public function like($key, $value)
+	public function like($key, $value, $property = null)
 	{
-
+		if ( ! is_null($property))
+		{
+			switch ($property) {
+				case 'front':
+					$this->_sm = array(':'.$key => $value.'%');
+					break;
+				case 'back' :
+					$this->_sm = array(':'.$key => '%'.$value);
+				default:
+					$this->_sm = array(':'.$key => '%'.$value.'%');
+					break;
+			}
+		} else {
+			$this->_sm = array(':'.$key => '%'.$value.'%');
+		}
 		$this->_qb = $key.' LIKE :'.$key;
-		$this->_sm = array(':'.$key => '%'.$value.'%');
+		return $this;
+	}
+
+	public function orderBy($key, $property)
+	{
+		$this->_qb = ' ORDER BY '.$key.' '.strtoupper($property);
 		return $this;
 	}
 

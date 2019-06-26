@@ -24,9 +24,13 @@
 	</form>
 	<h4>Daftar Kota</h4>
 	<ul>
-		<?php foreach ($data['kota'] as $kota) : ?>
-			<li><?= $kota['nama']; ?> <a href="<?= base_url('welcome/deleteKota/'.$kota['id']); ?>">Delete</a></li>
-		<?php endforeach; ?>
+		<?php if (count($data['kota']) < 1) : ?>
+			<p>Tidak ada hasil yang ditampilkan!</p>
+		<?php else : ?>
+			<?php foreach ($data['kota'] as $kota) : ?>
+				<li><?= $kota['nama']; ?> <a href="<?= base_url('welcome/deleteKota/'.$kota['id']); ?>">Delete</a></li>
+			<?php endforeach; ?>
+		<?php endif; ?>
 	</ul>
 	<!-- <br>
 	<form action="<?= base_url('welcome/insertUser'); ?>" method="POST">
