@@ -11,7 +11,8 @@ class welcome_model extends Controller
 	public function insertData($data)
 	{
 		$nama_kota = $data['nama_kota'];
-		$this->db->insert('kota', array('nama' => $nama_kota));
+		$deskripsi = $data['deskripsi'];
+		$this->db->insert('kota', array('nama' => $nama_kota, 'deskripsi' => $deskripsi));
 		return $this->db->rowCount();
 	}
 
@@ -23,10 +24,14 @@ class welcome_model extends Controller
 		return $this->db->rowCount();
 	}
 
-	public function getData($table)
+	public function getData()
 	{
-		$this->db->orderBy('id', 'DESC');
-		return $this->db->get($table);
+		$this->db->orderBy('id', 'asc');
+		$this->db->get('kota');
+		$data = $this->db->result_array();
+		$convert = json_encode($data);
+		return $convert;
+
 	}
 
 	public function deleteData($table, $id)
@@ -56,7 +61,8 @@ class welcome_model extends Controller
 
 	public function whereUser($id)
 	{
-		return $this->db->get_where('users', array('id' => $id));
+		$this->db->get_where('users', array('id' => $id));
+		return $this->db->result_row();
 	}
 
 	public function updateData()
@@ -79,6 +85,7 @@ class welcome_model extends Controller
 		// Jika menggunakan fitur like isikan pertama key dan kedua value 
 		// ketiga property (otional) terdiri dari front dan back front untuk like depan dan back untuk like belakang
 		$this->db->like('nama', $k);
+		$this->db->orderBy('id', 'DESC');
 		$this->db->get_where('kota');
 		return $this->db->result_array();
 	}

@@ -3,15 +3,14 @@ class Welcome extends Controller
 {
 	public function index()
 	{
-		$data['kota'] = $this->model('welcome_model')->getData('kota');
-		$data['user'] = $this->model('welcome_model')->getData('users');
-		$data['foto'] = $this->model('welcome_model')->getData('foto');
+		$kota = $this->model('welcome_model')->getData();
+		$data['kota'] = json_decode($kota, true);
 		$this->view('main', $data);
 	}
 
 	public function main()
 	{
-		$this->view('main');
+		echo 'Hai';
 	}
 
 	public function insert()

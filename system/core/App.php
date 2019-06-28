@@ -16,6 +16,10 @@ class App
 			$this->controller = $url[0];
 			unset($url[0]);
 		}
+		else if ( ! file_exists(DIR.'/controllers/'.ucfirst($url[0]).'.php') && $url[0] !== null){
+			require_once DIR.'/views/error/404.php';
+			die;
+		}
 
 		require_once DIR.'/controllers/'.ucfirst($this->controller).'.php';
 		$this->controller = new $this->controller;

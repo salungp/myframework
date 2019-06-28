@@ -18,11 +18,22 @@ define('NAME', $database['name']);
 
 function base_url($url = null)
 {
-	return BASEURL.$url;
+	if (is_null(BASEURL))
+	{
+		return dirname( __FILE__ ).$url;
+	} else {
+		return BASEURL.$url;
+	}
 }
 
 function redirect($url = null)
 {
-	header('location:'.BASEURL.$url);
-	exit;
+	if (is_null(BASEURL))
+	{
+		header('location:'.dirname( __FILE__ ).$url);
+		exit;
+	} else {
+		header('location:'.BASEURL.$url);
+		exit;
+	}
 }
