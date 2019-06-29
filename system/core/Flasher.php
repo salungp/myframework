@@ -1,8 +1,6 @@
 <?php
 class Flasher
 {
-	public $_message;
-
 	public static function set($m)
 	{
 		$_SESSION['flasher'] = array('m' => $m);

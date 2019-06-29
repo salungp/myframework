@@ -1,6 +1,8 @@
 <?php
 class Controller
 {
+	public $_input;
+
 	public function view($view, $data = array())
 	{
 		require_once 'aplication/views/'.$view.'.php';
@@ -16,21 +18,27 @@ class Controller
 	{
 		if (isset($_GET))
 		{
-			if ($property = 'required')
+			if ($property == 'required')
 			{
-				Flasher::set('Your input is empty!');
-				return false;
+				if ($_GET[$data] === null)
+				{
+					Flasher::set('Your input is empty!');
+					$this->_input = false;
+				}
 			} else {
-				return $_GET[$data];
+				return htmlspecialchars($_GET[$data]);
 			}
 		} else if (isset($_POST))
 		{
-			if ($property = 'required')
+			if ($property == 'required')
 			{
-				Flasher::set('Your input is empty!');
-				return false;
+				if ($_POST[$data] === null)
+				{
+					Flasher::set('Your input is empty!');
+					$this->_input = false;
+				}
 			} else {
-				return $_POST[$data];
+				return htmlspecialchars($_POST[$data]);
 			}
 		}
 	}

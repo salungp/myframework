@@ -74,6 +74,7 @@
 			  	<h3><?= $kota['nama']; ?></h3>
 			  	<p><?= $kota['deskripsi']; ?></p>
 			  	<a href="<?= base_url('welcome/deleteKota/'.$kota['id']); ?>">Delete</a>
+			  	<a href="<?= base_url('welcome/update/'.$kota['id']); ?>">Update</a>
 			</div>
 		<?php endforeach; ?>
 	<?php endif; ?>

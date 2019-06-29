@@ -1,5 +1,5 @@
 <?php
-class Database
+class Database extends Controller
 {
 	// database host
 	private $_host = HOST;
@@ -42,26 +42,32 @@ class Database
 
 	public function insert($table, $data)
 	{
-		// declare $_value array
-		$_value = array();
-		// declare $_k array
-		$_k = '';
-		// put keys in $data array
-		$key = array_keys($data);
-		// fetch to query sql
-		$_key = implode(', ', $key);
+		if ($this->_input === false)
+		{
+			$_SESSION['flasher'] = 'Insert data failed!';
+			redirect();
+		} else {
+			// declare $_value array
+			$_value = array();
+			// declare $_k array
+			$_k = '';
+			// put keys in $data array
+			$key = array_keys($data);
+			// fetch to query sql
+			$_key = implode(', ', $key);
 
-		foreach ($data as $k => $v) {
-			$v = ltrim($v, ' ');
-			$v = rtrim($v, ' ');
-			$_value[':'.$k] = $v;
-			$_k = array_keys($_value);
-			$_k = implode(', ', $_k);
+			foreach ($data as $k => $v) {
+				$v = ltrim($v, ' ');
+				$v = rtrim($v, ' ');
+				$_value[':'.$k] = $v;
+				$_k = array_keys($_value);
+				$_k = implode(', ', $_k);
+			}
+
+			$query = 'INSERT INTO '.$table.' ('.$_key.') VALUES ('.$_k.')';
+			$this->_stmt = $this->_dbh->prepare($query);
+			$this->_stmt->execute($_value);
 		}
-
-		$query = 'INSERT INTO '.$table.' ('.$_key.') VALUES ('.$_k.')';
-		$this->_stmt = $this->_dbh->prepare($query);
-		$this->_stmt->execute($_value);
 	}
 
 	public function bind($param, $value, $type = null)
@@ -103,7 +109,8 @@ class Database
 				$this->_stmt->execute($this->_qb);
 			}
 		} else {
-			$this->_stmt = $this->_dbh->query('SELECT * FROM '.$table.$this->_like.$this->_order_by.$this->_limit);
+			$query = 'SELECT * FROM '.$table.$this->_like.$this->_order_by.$this->_limit;
+			$this->_stmt = $this->_dbh->query($query);
 			$this->_stmt->execute($this->_qb);
 		}
 	}

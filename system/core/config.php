@@ -1,6 +1,7 @@
 <?php
 require_once 'aplication/config/routes.php';
 require_once 'aplication/config/database.php';
+require_once 'system/core/Common.php';
 
 define('CONTROLLER', ucfirst($routes['default_controller']));
 
@@ -15,25 +16,3 @@ define('HOST', $database['host']);
 define('USER', $database['user']);
 define('PASS', $database['pass']);
 define('NAME', $database['name']);
-
-function base_url($url = null)
-{
-	if (is_null(BASEURL))
-	{
-		return dirname( __FILE__ ).$url;
-	} else {
-		return BASEURL.$url;
-	}
-}
-
-function redirect($url = null)
-{
-	if (is_null(BASEURL))
-	{
-		header('location:'.dirname( __FILE__ ).$url);
-		exit;
-	} else {
-		header('location:'.BASEURL.$url);
-		exit;
-	}
-}

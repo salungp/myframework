@@ -10,8 +10,8 @@ class welcome_model extends Controller
 
 	public function insertData($data)
 	{
-		$nama_kota = $data['nama_kota'];
-		$deskripsi = $data['deskripsi'];
+		$nama_kota = $_POST['nama_kota'];
+		$deskripsi = $_POST['deskripsi'];
 		$this->db->insert('kota', array('nama' => $nama_kota, 'deskripsi' => $deskripsi));
 		return $this->db->rowCount();
 	}
@@ -59,9 +59,9 @@ class welcome_model extends Controller
 		}
 	}
 
-	public function whereUser($id)
+	public function whereKota($id)
 	{
-		$this->db->get_where('users', array('id' => $id));
+		$this->db->get_where('kota', array('id' => $id));
 		return $this->db->result_row();
 	}
 
@@ -69,11 +69,11 @@ class welcome_model extends Controller
 	{
 		$id = $_POST['id'];
 		$nama = $_POST['nama'];
-		$email = $_POST['email'];
-		// $query = "UPDATE users SET nama='$nama', email='$email' WHERE id=$id";
+		$deskripsi = $_POST['deskripsi'];
+		// $query = "UPDATE users SET nama='$nama', deskripsi='$deskripsi' WHERE id=$id";
 		// die($query);
 		$this->db->where('id', $id);
-		$this->db->update('users', array('nama' => $nama, 'email' => $email));
+		$this->db->update('kota', array('nama' => $nama, 'deskripsi' => $deskripsi));
 		// $this->db->query($query);
 		// $this->db->execute();
 		return $this->db->rowCount();

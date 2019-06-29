@@ -12,9 +12,9 @@
 <body>
 	<form action="<?= base_url('welcome/updateUser'); ?>" method="POST">
 		<div class="form-inline">
-			<input type="hidden" name="id" placeholder="Masukkan nama" value="<?= $data['user']['id']; ?>"><br>
-			<input type="text" name="nama" placeholder="Masukkan nama" value="<?= $data['user']['nama']; ?>"><br>
-			<input type="text" name="email" placeholder="Masukkan email" value="<?= $data['user']['email']; ?>"><br>
+			<input type="hidden" name="id" placeholder="Masukkan nama" value="<?= $data['kota']['id']; ?>"><br>
+			<input type="text" name="nama" placeholder="Masukkan nama" value="<?= $data['kota']['nama']; ?>"><br>
+			<input type="text" name="deskripsi" placeholder="Masukkan email" value="<?= $data['kota']['deskripsi']; ?>"><br>
 			<button type="submit">Simpan</button>
 		</div>
 	</form>

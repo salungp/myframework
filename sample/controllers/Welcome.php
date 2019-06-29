@@ -87,7 +87,7 @@ class Welcome extends Controller
 
 	public function update($id)
 	{
-		$data['user'] = $this->model('welcome_model')->whereUser($id);
+		$data['kota'] = $this->model('welcome_model')->whereKota($id);
 		$this->view('update', $data);
 	}
 
